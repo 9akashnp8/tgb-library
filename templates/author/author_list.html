@@ -1,8 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Author List</h1>
+{% if messages %}
 <ul>
+    {% for message in messages %}
+    <li>{{message}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<h1>Author List</h1>
+<ul id="author-list">
     {% for author in authors %}
     <li>{{author.name}}</li>
     {% endfor %}
