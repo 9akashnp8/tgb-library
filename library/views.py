@@ -1,5 +1,7 @@
 from django.views.generic import ListView, TemplateView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
 from .models import Author
 from .forms import AuthorCreateForm
 
@@ -16,6 +18,8 @@ def author_list_and_create_view(request):
     if request.method == "POST":
         form = AuthorCreateForm(request.POST)
         if form.is_valid():
-            form.save()
+            instance = form.save()
+            messages.success(request, f'{instance.name} Successfuly Added as an Author.')
+            return redirect('/author/')
     authors = Author.objects.all()
     return render(request, 'author/author_list.html', context={'form': form, 'authors': authors})
