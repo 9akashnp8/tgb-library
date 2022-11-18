@@ -9,8 +9,12 @@
 </ul>
 {% endif %}
 <h1>Author List</h1>
+<form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" />
+</form>
 <ul id="author-list">
-    {% for author in authors %}
+    {% for author in filter.qs %}
     <li>{{author.name}}</li>
     {% endfor %}
 </ul>
