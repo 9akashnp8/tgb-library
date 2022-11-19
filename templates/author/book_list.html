@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{message}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% if form.errors %}
+<ul>
+    {% for error in form.errors %}
+    <li>{{error.field.message}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<h1>Book List</h1>
+<!-- <a href="{% url 'author_export' %}" class="btn btn-primary">Export</a> -->
+<form
+    hx-get="/htmx/book/filter"
+    hx-params="*"
+    hx-target="#result"
+>
+    <h2>Search</h2>
+    {{filter.form.name.label}}
+    {{filter.form.name}}
+
+    <h2>Filter</h2>
+    {{filter.form.min_page.label}}
+    {{filter.form.min_page}}
+    {{filter.form.max_page.label}}
+    {{filter.form.max_page}}
+    {{filter.form.min_published_year.label}}
+    {{filter.form.min_published_year}}
+    {{filter.form.max_published_year.label}}
+    {{filter.form.max_published_year}}
+    <input type="submit"/>
+</form>
+<ul id="result">
+    {% include 'partials/author_filtered_result.html' %}
+</ul>
+{% include 'partials/add_author_modal_form.html' %}
+{% endblock content %}
