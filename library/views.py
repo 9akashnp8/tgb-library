@@ -15,7 +15,7 @@ class Home(TemplateView):
 #     template_name = 'author/author_list.html'
 
 def author_list_and_create_view(request):
-    filter = AuthorFilter(request.GET, queryset=Author.objects.all())
+    filter = AuthorFilter(request.GET, queryset=None)
     form = AuthorCreateForm()
     if request.method == "POST":
         form = AuthorCreateForm(request.POST)
@@ -25,3 +25,8 @@ def author_list_and_create_view(request):
             return redirect('/author/')
     context = {'form': form, 'filter': filter}
     return render(request, 'author/author_list.html', context)
+
+def authors_list(request):
+    filter = AuthorFilter(request.GET, queryset=Author.objects.all())
+    context = { 'filter': filter}
+    return render(request, 'partials/author_filtered_result.html', context)
