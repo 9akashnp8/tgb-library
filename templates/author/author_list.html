@@ -14,7 +14,12 @@
     hx-params="*"
     hx-target="#result"
 >
-    {{ filter.form.as_p}}
+    <h2>Search</h2>
+    {{filter.form.name}}
+
+    <h2>Filter</h2>
+    {{ filter.form.gender}}
+    {{ filter.form.age}}
     <input type="submit"/>
 </form>
 <ul id="result">
