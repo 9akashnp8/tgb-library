@@ -16,7 +16,7 @@
 </ul>
 {% endif %}
 <h1>Book List</h1>
-<!-- <a href="{% url 'author_export' %}" class="btn btn-primary">Export</a> -->
+<a href="{% url 'book_export' %}" class="btn btn-primary">Export</a>
 <form
     hx-get="/htmx/book/filter"
     hx-params="*"

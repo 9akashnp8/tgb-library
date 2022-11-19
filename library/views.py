@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from .models import Author, Book
 from .forms import AuthorCreateForm, BookCreateForm
 from .filters import AuthorFilter, BookFilter
-from .resources import AuthorResource
+from .resources import AuthorResource, BookResource
 
 # Create your views here.
 class Home(TemplateView):
@@ -46,6 +46,13 @@ def export_author(request):
     dataset = author_resource.export()
     response = HttpResponse(dataset.csv, content_type='text/csv')
     response['Content-Disposition'] = 'attachment;filename="authors.csv"'
+    return response
+
+def export_book(request):
+    author_resource = BookResource()
+    dataset = author_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment;filename="books.csv"'
     return response
 
 # HTMX Helpers
