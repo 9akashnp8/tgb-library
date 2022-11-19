@@ -1,10 +1,12 @@
 from django.views.generic import ListView, TemplateView
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import HttpResponse
 
 from .models import Author
 from .forms import AuthorCreateForm
 from .filters import AuthorFilter
+from .resources import AuthorResource
 
 # Create your views here.
 class Home(TemplateView):
@@ -26,6 +28,15 @@ def author_list_and_create_view(request):
     context = {'form': form, 'filter': filter}
     return render(request, 'author/author_list.html', context)
 
+# Helpers
+def export_author(request):
+    author_resource = AuthorResource()
+    dataset = author_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment;filename="authors.csv"'
+    return response
+
+# HTMX Helpers
 def authors_list(request):
     filter = AuthorFilter(request.GET, queryset=Author.objects.all())
     context = { 'filter': filter}
