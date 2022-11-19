@@ -9,12 +9,18 @@
 </ul>
 {% endif %}
 <h1>Author List</h1>
+<a href="{% url 'author_export' %}" class="btn btn-primary">Export</a>
 <form
     hx-get="/htmx/author/filter"
     hx-params="*"
     hx-target="#result"
 >
-    {{ filter.form.as_p}}
+    <h2>Search</h2>
+    {{filter.form.name}}
+
+    <h2>Filter</h2>
+    {{ filter.form.gender}}
+    {{ filter.form.age}}
     <input type="submit"/>
 </form>
 <ul id="result">
