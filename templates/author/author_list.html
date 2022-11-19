@@ -9,10 +9,16 @@
 </ul>
 {% endif %}
 <h1>Author List</h1>
-<ul id="author-list">
-    {% for author in authors %}
-    <li>{{author.name}}</li>
-    {% endfor %}
+<form
+    hx-get="/htmx/author/filter"
+    hx-params="*"
+    hx-target="#result"
+>
+    {{ filter.form.as_p}}
+    <input type="submit"/>
+</form>
+<ul id="result">
+    {% include 'partials/author_filtered_result.html' %}
 </ul>
 {% include 'partials/add_author_modal_form.html' %}
 {% endblock content %}
