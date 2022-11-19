@@ -13,18 +13,12 @@
                 <a 
                     href="{% url 'author_list' %}" 
                     class="btn btn-outline-light btn-lg px-4"
-                    hx-get="/author/"
-                    hx-target="#result"
-                    hx-swap="outerHTML"
                 >
                     View Authors
                 </a>
                 <a 
                     href="{% url 'book_list' %}" 
                     class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold"
-                    hx-get="/book/"
-                    hx-target="#result"
-                    hx-swap="outerHTML"
                 >
                     View Books
                 </a>

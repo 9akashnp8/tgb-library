@@ -1,30 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if messages %}
-<ul>
-    {% for message in messages %}
-    <li>{{message}}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-<h1>Author List</h1>
-<a href="{% url 'author_export' %}" class="btn btn-primary">Export</a>
-<form
-    hx-get="/htmx/author/filter"
-    hx-params="*"
-    hx-target="#result"
->
-    <h2>Search</h2>
-    {{filter.form.name}}
-
-    <h2>Filter</h2>
-    {{ filter.form.gender}}
-    {{ filter.form.age}}
-    <input type="submit"/>
-</form>
-<ul id="result">
-    {% include 'partials/author_filtered_result.html' %}
-</ul>
-{% include 'partials/add_author_modal_form.html' %}
+<div class="container my-5">
+    <div class="card p-3">
+        <div class="hstack gap-3">
+            <h2 class="fw-bold">Author List</h2>
+            {% include 'partials/add_author_modal_form.html' %}
+            <a href="{% url 'author_export' %}" class="btn btn-primary">Export</a>
+        </div>
+        <div class="card p-3 my-3">
+            <h6>Search</h6>
+            <div class="hstack gap-3">
+                <div>
+                    {{filter.form.name.label}}
+                    {{filter.form.name}}
+                </div>
+                <div>
+                    {{ filter.form.gender.label}}
+                    {{ filter.form.gender}}
+                </div>
+                <div>
+                    {{ filter.form.age.label}}
+                    {{ filter.form.age}}
+                </div>
+            </div>
+        </div>
+        <div>
+            {% if messages %}
+            <div class="alert alert-success" role="alert">
+                {% for message in messages %}
+                <p class="m-0">{{message}}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div id="result" class="row mt-3">
+            {% include 'partials/author_filtered_result.html' %}
+        </div>
+    </div>
+</div>
 {% endblock content %}

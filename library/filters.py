@@ -1,10 +1,20 @@
 import django_filters
-from django.forms.widgets import DateInput
+from django.forms.widgets import DateInput, TextInput
 from .models import Author, Book
 
 # Filters
 class AuthorFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='name', lookup_expr='icontains')
+    name = django_filters.CharFilter(
+        field_name='name', 
+        label='Author Name', 
+        lookup_expr='icontains', 
+        widget=TextInput(attrs={
+            'hx-get': '/htmx/author/filter',
+            'hx-trigger': 'change',
+            'hx-params': '*',
+            'hx-target': '#result',
+        }))
+
     class Meta:
         model = Author
         fields = ['age', 'gender', 'name']
