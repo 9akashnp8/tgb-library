@@ -45,7 +45,7 @@ class BookFilter(django_filters.FilterSet):
     min_avg_critics_rating = django_filters.NumberFilter(
         field_name='average_critics_rating', 
         label='Min. Avg. Ratings',
-        lookup_expr='gt',
+        lookup_expr='gte',
         widget=Select(
             choices=((i, i) for i in range(0, 11)),
             attrs={
