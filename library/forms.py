@@ -29,12 +29,14 @@ class BookCreateForm(forms.ModelForm):
         model = Book
         fields = '__all__'
         widgets = {
-            'date_of_publishing': forms.DateInput(attrs={
-                'type': 'date'
-            })
+            'date_of_publishing': forms.DateInput(attrs={'type': 'date'}),
+            'average_critics_rating': forms.Select(choices=[(i, i) for i in range(11)])
         }
     
     def __init__(self, *args, **kwargs):
         super(BookCreateForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs.update({'class': 'form-control'})
+            if field != 'average_critics_rating' and field != 'author':
+                self.fields[field].widget.attrs.update({'class': 'form-control'})
+            else:
+                self.fields[field].widget.attrs.update({'class': 'form-select'})
