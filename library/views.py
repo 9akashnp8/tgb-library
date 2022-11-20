@@ -8,7 +8,7 @@ from rest_framework.exceptions import ValidationError
 
 from .models import Author, Book
 from .forms import AuthorCreateForm, BookCreateForm
-from .filters import AuthorFilter, BookFilter
+from .filters import AuthorFilter, BookFilter, BookAPIFilter
 from .resources import AuthorResource, BookResource
 from .serializers import AuthorSerializer, BookSerializer
 
@@ -112,6 +112,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
 
 class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
+    filterset_class = BookAPIFilter
 
     def get_queryset(self):
         queryset = Book.objects.all()

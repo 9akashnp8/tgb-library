@@ -1,12 +1,10 @@
 from datetime import datetime
 import django_filters
-from django_filters import RangeFilter, DateRangeFilter
 from django_filters.widgets import RangeWidget
-from django_filters.fields import RangeField
-from django.forms import DateField, IntegerField
 from django.forms.widgets import TextInput, Select, NumberInput
+from django_filters import rest_framework as filters
 
-from .models import Author, Book, Country, Author
+from .models import Author, Book, Author
 
 # Filters
 class AuthorFilter(django_filters.FilterSet):
@@ -91,3 +89,12 @@ class BookFilter(django_filters.FilterSet):
         return queryset.filter(**{
             f"{name}__lte": value
         })
+
+class BookAPIFilter(filters.FilterSet):
+    author = filters.CharFilter(
+        field_name='author__name'
+    )
+    average_critics_rating = filters.CharFilter(
+        field_name='average_critics_rating',
+        lookup_expr='gte'
+    )
