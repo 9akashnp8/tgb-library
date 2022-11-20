@@ -20,6 +20,14 @@ class AuthorCreateForm(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update({'class': 'form-control'})
     
+    def clean_age(self):
+        age = self.cleaned_data['age']
+        if int(age) > 102:
+            self.add_error('age', 'The oldest author till date was 102 years old, please enter an age < 102')
+        elif int(age) <= 5:
+            self.add_error('age', 'The youngest author till date is 5 years old, please enter an age > 5')
+        return age
+    
 class BookCreateForm(forms.ModelForm):
     class Meta:
         model = Book
