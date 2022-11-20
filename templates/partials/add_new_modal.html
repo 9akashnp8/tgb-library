@@ -10,7 +10,7 @@
       <div class="modal-body">
         <form method="POST">
             {% csrf_token %}
-            {{form}}
+            {{form.as_p}}
             <button type="submit" class="btn btn-primary">Add</button>
         </form>
       </div>
