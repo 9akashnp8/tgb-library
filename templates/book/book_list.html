@@ -4,14 +4,14 @@
 <div class="container my-5">
     <div class="card p-3">
         <div class="hstack gap-3">
-            <h2 class="fw-bold">Author List</h2>
+            <h2 class="fw-bold">Book List</h2>
             {% include 'partials/add_new_modal.html' %}
-            <a href="{% url 'author_export' %}" class="btn btn-primary">Export</a>
+            <a href="{% url 'book_export' %}" class="btn btn-primary">Export</a>
         </div>
         <div class="card p-3 my-3">
             <h6>Search</h6>
             <form
-                hx-get="/htmx/author/filter"
+                hx-get="/htmx/book/filter"
                 hx-params="*"
                 hx-trigger="change"
                 hx-target="#result"
@@ -22,12 +22,16 @@
                         {{filter.form.name}}
                     </div>
                     <div>
-                        {{ filter.form.gender.label}}
-                        {{ filter.form.gender}}
+                        {{ filter.form.min_avg_critics_rating.label}}
+                        {{ filter.form.min_avg_critics_rating}}
                     </div>
                     <div>
-                        {{ filter.form.age.label}}
-                        {{ filter.form.age}}
+                        {{ filter.form.published_year.label}}
+                        {{ filter.form.published_year}}
+                    </div>
+                    <div class="hstack">
+                        {{ filter.form.page_range.label}}
+                        {{ filter.form.page_range}}
                     </div>
                 </div>
             </form>
@@ -42,7 +46,7 @@
             {% endif %}
         </div>
         <div id="result" class="row mt-3">
-            {% include 'partials/author_filtered_result.html' %}
+            {% include 'partials/book_filtered_result.html' %}
         </div>
     </div>
 </div>
