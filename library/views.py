@@ -8,6 +8,8 @@ from .forms import AuthorCreateForm, BookCreateForm
 from .filters import AuthorFilter, BookFilter
 from .resources import AuthorResource, BookResource
 
+from tablib import Dataset
+
 # Create your views here.
 class Home(TemplateView):
     template_name = 'home.html'
@@ -48,12 +50,42 @@ def export_author(request):
     response['Content-Disposition'] = 'attachment;filename="authors.csv"'
     return response
 
+def import_author(request):
+    if request.method == "POST":
+        author_resource = AuthorResource()
+        dataset = Dataset()
+        new_authors = request.FILES.get("authorCSV")
+
+        imported_data = dataset.load(new_authors.read().decode(), format='csv')
+        result = author_resource.import_data(dataset, dry_run=True)
+
+        if not result.has_errors():
+            author_resource.import_data(dataset, dry_run=False)
+            return redirect('author_list')
+    return render(request, 'author/import.html')
+
 def export_book(request):
-    author_resource = BookResource()
-    dataset = author_resource.export()
+    book_resource = BookResource()
+    dataset = book_resource.export()
     response = HttpResponse(dataset.csv, content_type='text/csv')
     response['Content-Disposition'] = 'attachment;filename="books.csv"'
     return response
+
+def import_book(request):
+    if request.method == "POST":
+        book_resource = BookResource()
+        dataset = Dataset()
+        new_books = request.FILES.get("bookCSV")
+
+        imported_data = dataset.load(new_books.read().decode(), format='csv')
+        print(imported_data)
+        result = book_resource.import_data(dataset, dry_run=True, raise_errors=True)
+        print(result)
+
+        if not result.has_errors():
+            book_resource.import_data(dataset, dry_run=False, raise_errors=True)
+            return redirect('book_list')
+    return render(request, 'book/import.html')
 
 # HTMX Helpers
 def authors_list(request):
