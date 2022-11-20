@@ -1,0 +1,7 @@
+{% if filter.errors %}
+<div class="container">
+    <div class="alert alert-warning" role="alert">
+        <p class="m-0 fw-bold">{{filter.errors.as_text}}</p>
+    </div>
+</div>
+{% endif %}
