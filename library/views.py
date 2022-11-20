@@ -38,7 +38,7 @@ def book_list_and_create_view(request):
             messages.success(request, f'{instance.name} Successfuly Added as a Book.')
             return redirect('/book/')
     context = {'form': form, 'filter': filter}
-    return render(request, 'author/book_list.html', context)
+    return render(request, 'book/book_list.html', context)
 
 # Helpers
 def export_author(request):
@@ -64,4 +64,7 @@ def authors_list(request):
 def books_list(request):
     filter = BookFilter(request.GET, queryset=Book.objects.all())
     context = { 'filter': filter}
-    return render(request, 'partials/author_filtered_result.html', context)
+    if filter.is_valid():
+        return render(request, 'partials/book_filtered_result.html', context)
+    else:
+        return render(request, 'partials/filter_errors.html', context)
