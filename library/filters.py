@@ -1,17 +1,12 @@
 from datetime import datetime
 import django_filters
+from django_filters import RangeFilter, DateRangeFilter
 from django_filters.widgets import RangeWidget
-from django.forms.widgets import DateInput, TextInput, Select, NumberInput
+from django_filters.fields import RangeField
+from django.forms import DateField, IntegerField
+from django.forms.widgets import TextInput, Select, NumberInput
 
 from .models import Author, Book, Country, Author
-
-# Extensions/Customizations
-class CustomRangeWidget(RangeWidget):
-    def __init__(self, attrs=None):
-        super().__init__(attrs)
-        widgets = (TextInput(attrs={
-            'placeholder': 'Hello'
-        }), TextInput)
 
 # Filters
 class AuthorFilter(django_filters.FilterSet):
@@ -59,17 +54,40 @@ class BookFilter(django_filters.FilterSet):
         ))
     page_range = django_filters.RangeFilter(
         field_name='number_of_pages',
-        widget=CustomRangeWidget(attrs={
+        widget=RangeWidget(attrs={
             'class': 'form-control'
         })
     )
-    published_year = django_filters.DateRangeFilter(
+    min_published_year = django_filters.CharFilter(
         field_name='date_of_publishing',
-        label='Year of Publishing',
-        widget=Select(attrs={
-            'class': 'form-select'
+        label='Publish Date Between',
+        method='find_books_published_after',
+        widget=TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Published After'
+        })
+    )
+    max_published_year = django_filters.CharFilter(
+        field_name='date_of_publishing',
+        label='Publish Date Between',
+        method='find_books_published_before',
+        widget=TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Published Before'
         })
     )
     class Meta:
         model = Book
-        fields = ['name', 'min_avg_critics_rating', 'page_range', 'published_year']
+        fields = ['name', 'min_avg_critics_rating', 'page_range', 'min_published_year', 'max_published_year']
+    
+    def find_books_published_after(self, queryset, name, value):
+        value = datetime(int(value), 1, 1)
+        return queryset.filter(**{
+            f"{name}__gte": value
+        })
+
+    def find_books_published_before(self, queryset, name, value):
+        value = datetime(int(value), 1, 1)
+        return queryset.filter(**{
+            f"{name}__lte": value
+        })
