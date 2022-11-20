@@ -1,5 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'author', views.AuthorViewSet, basename='author')
+router.register(r'book', views.BookViewSet, basename='book')
 
 urlpatterns = [
     path('', views.Home.as_view(), name='home'),
@@ -14,4 +20,5 @@ urlpatterns = [
     # HTMX
     path('htmx/author/filter', views.authors_list, name='author-filter'),
     path('htmx/book/filter', views.books_list, name='book-filter'),
+    path('api/', include(router.urls)),
 ]

@@ -3,10 +3,14 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
 
+from rest_framework import viewsets
+from rest_framework.exceptions import ValidationError
+
 from .models import Author, Book
 from .forms import AuthorCreateForm, BookCreateForm
 from .filters import AuthorFilter, BookFilter
 from .resources import AuthorResource, BookResource
+from .serializers import AuthorSerializer, BookSerializer
 
 from tablib import Dataset
 
@@ -100,3 +104,20 @@ def books_list(request):
         return render(request, 'partials/book_filtered_result.html', context)
     else:
         return render(request, 'partials/filter_errors.html', context)
+
+# API Views
+class AuthorViewSet(viewsets.ModelViewSet):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+class BookViewSet(viewsets.ModelViewSet):
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        queryset = Book.objects.all()
+        author = self.request.query_params.get('author')
+        if author is not None:
+            queryset = queryset.filter(author__name=author)
+            if len(queryset) == 0:
+                raise ValidationError({'message': 'No Such Author Found'})
+        return queryset
