@@ -4,34 +4,11 @@
 <div class="container my-5">
     <div class="card p-3">
         <div class="hstack gap-3">
-            <h2 class="fw-bold">Author List</h2>
+            <h2 class="fw-bold">Author's List</h2>
             {% include 'partials/add_new_modal.html' %}
-            <a href="{% url 'author_export' %}" class="btn btn-primary">Export</a>
+            <a href="{% url 'book_export' %}" class="btn btn-primary">Export</a>
         </div>
-        <div class="card p-3 my-3">
-            <h6>Search</h6>
-            <form
-                hx-get="/htmx/author/filter"
-                hx-params="*"
-                hx-trigger="change"
-                hx-target="#result"
-            >
-                <div class="hstack gap-3">
-                    <div>
-                        {{filter.form.name.label}}
-                        {{filter.form.name}}
-                    </div>
-                    <div>
-                        {{ filter.form.gender.label}}
-                        {{ filter.form.gender}}
-                    </div>
-                    <div>
-                        {{ filter.form.age.label}}
-                        {{ filter.form.age}}
-                    </div>
-                </div>
-            </form>
-        </div>
+        <hr/>
         <div>
             {% if messages %}
             <div class="alert alert-success" role="alert">
@@ -40,9 +17,51 @@
                 {% endfor %}
             </div>
             {% endif %}
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                    <div class="alert alert-warning" role="alert">
+                        <p class="m-0">{{field.label}}: {{error}}</p>
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
-        <div id="result" class="row mt-3">
-            {% include 'partials/author_filtered_result.html' %}
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="card p-3">
+                    <div class="card-title fw-bold">Search</div>
+                    <form
+                    hx-get="/htmx/author/filter"
+                    hx-params="*"
+                    hx-trigger="change"
+                    hx-target="#result"
+                    >
+                        <div class="vstack gap-3">
+                            <div>
+                                {{filter.form.name.label}}
+                                {{filter.form.name}}
+                            </div>
+                            <div>
+                                {{filter.form.age.label}}
+                                {{filter.form.age}}
+                            </div>
+                            <div>
+                                {{filter.form.gender.label}}
+                                {{filter.form.gender}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card p-3">
+                    <div class="card-title fw-bold">Authors</div>
+                    <div id="result" class="row mt-3">
+                        {% include 'partials/author_filtered_result.html' %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

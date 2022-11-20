@@ -8,34 +8,7 @@
             {% include 'partials/add_new_modal.html' %}
             <a href="{% url 'book_export' %}" class="btn btn-primary">Export</a>
         </div>
-        <div class="card p-3 my-3">
-            <h6>Search</h6>
-            <form
-                hx-get="/htmx/book/filter"
-                hx-params="*"
-                hx-trigger="change"
-                hx-target="#result"
-            >
-                <div class="hstack gap-3">
-                    <div>
-                        {{filter.form.name.label}}
-                        {{filter.form.name}}
-                    </div>
-                    <div>
-                        {{ filter.form.min_avg_critics_rating.label}}
-                        {{ filter.form.min_avg_critics_rating}}
-                    </div>
-                    <div>
-                        {{ filter.form.published_year.label}}
-                        {{ filter.form.published_year}}
-                    </div>
-                    <div class="hstack">
-                        {{ filter.form.page_range.label}}
-                        {{ filter.form.page_range}}
-                    </div>
-                </div>
-            </form>
-        </div>
+        <hr/>
         <div>
             {% if messages %}
             <div class="alert alert-success" role="alert">
@@ -44,9 +17,59 @@
                 {% endfor %}
             </div>
             {% endif %}
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                    <div class="alert alert-warning" role="alert">
+                        <p class="m-0">{{field.label}}: {{error}}</p>
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
-        <div id="result" class="row mt-3">
-            {% include 'partials/book_filtered_result.html' %}
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="card p-3">
+                    <div class="card-title fw-bold">Search</div>
+                    <form
+                    hx-get="/htmx/book/filter"
+                    hx-params="*"
+                    hx-trigger="change"
+                    hx-target="#result"
+                    >
+                        <div class="vstack gap-3">
+                            <div>
+                                {{filter.form.name.label}}
+                                {{filter.form.name}}
+                            </div>
+                            <div>
+                                {{ filter.form.min_avg_critics_rating.label}}
+                                {{ filter.form.min_avg_critics_rating}}
+                            </div>
+                            <div class="hstack">
+                                <div>
+                                    {{ filter.form.min_published_year}}
+                                </div>
+                                -
+                                <div>
+                                    {{ filter.form.max_published_year}}
+                                </div>
+                            </div>
+                            <div class="hstack">
+                                {{ filter.form.page_range}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card p-3">
+                    <div class="card-title fw-bold">Books</div>
+                    <div id="result" class="row mt-3">
+                        {% include 'partials/book_filtered_result.html' %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
