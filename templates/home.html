@@ -2,26 +2,15 @@
 
 {% block content %}
 
-<div class="min-vh-100 bg-dark text-secondary d-flex justify-content-center align-items-center px-4 py-5 text-center" id="result">
-    <div class="py-5">
-        <h1 class="display-5 fw-bold text-white">TGB Library</h1>
+<div class="min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="text-center">
+        <h1 class="display-5 fw-bold">Welcome to TGB Library</h1>
         <div class="col-lg-6 mx-auto">
-            <p class="fs-5 mb-4">Welcome to the TGB Library. 
-                TGB Library is an open, editable library catalog, 
+            <p class="lead mb-4">TGB Library is an open, editable library catalog,
                 building towards a web page for every book ever published.</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <a 
-                    href="{% url 'author_list' %}" 
-                    class="btn btn-outline-light btn-lg px-4"
-                >
-                    View Authors
-                </a>
-                <a 
-                    href="{% url 'book_list' %}" 
-                    class="btn btn-outline-info btn-lg px-4 me-sm-3 fw-bold"
-                >
-                    View Books
-                </a>
+                <a href="{% url 'book_list' %}" class="btn btn-primary btn-lg px-4 gap-3">View All Books</a>
+                <a href="{% url 'author_list' %}" class="btn btn-outline-secondary btn-lg px-4">View All Authors</a>
             </div>
         </div>
     </div>
