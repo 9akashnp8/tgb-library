@@ -1,6 +1,6 @@
-# from decouple import config
+from decouple import config
 
-ENVIRONMENT = 'development'
+ENVIRONMENT = config("ENVIRONMENT")
 
 if ENVIRONMENT == 'production':
     from .production import *
