@@ -4,8 +4,31 @@
         <div class="card-body">
             <h5 class="card-title">{{book.name}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{book.author}}</h6>
-            <a href="#" class="btn btn-sm btn-primary card-link ms-auto">View Books</a>
+            <button class="btn btn-sm btn-primary card-link ms-auto" data-bs-toggle="modal" data-bs-target="#modal{{book.id}}">View Details</button>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal{{book.id}}" tabindex="-1" aria-labelledby="{{book.id}}Label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{book.name}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <ul class="d-flex flex-column">
+                <li>Book Name: {{book.name}}</li>
+                <li>Authored By: {{book.author}}</li>
+                <li>Published On: {{book.date_of_publishing}}</li>
+                <li>Average Ratings: {{book.average_critics_rating}}</li>
+                <li>Number of Pages: {{book.number_of_pages}}</li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
 </div>
 {% endfor %}
