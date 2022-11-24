@@ -53,7 +53,8 @@ class BookFilter(django_filters.FilterSet):
     page_range = django_filters.RangeFilter(
         field_name='number_of_pages',
         widget=RangeWidget(attrs={
-            'class': 'form-control'
+            'class': 'form-control', 
+            'placeholder': 'Page Filter'
         })
     )
     min_published_year = django_filters.CharFilter(
