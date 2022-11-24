@@ -1,11 +1,9 @@
 {% for book in filter.qs %}
 <div class="col-lg-4 mb-3">
     <div class="card w-100" style="width: 18rem;">
-        <div class="card-body" style="display: flex; align-items: center;">
-            <div>
-                <h5 class="card-title">{{book.name}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{book.author}}</h6>
-            </div>
+        <div class="card-body">
+            <h5 class="card-title">{{book.name}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{book.author}}</h6>
             <a href="#" class="btn btn-sm btn-primary card-link ms-auto">View Books</a>
         </div>
     </div>
