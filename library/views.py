@@ -118,7 +118,17 @@ class BookViewSet(viewsets.ModelViewSet):
         queryset = Book.objects.all()
         author = self.request.query_params.get('author')
         if author is not None:
-            queryset = queryset.filter(author__name=author)
-            if len(queryset) == 0:
-                raise ValidationError({'message': 'No Such Author Found'})
+            try:
+                a = Author.objects.get(name=author)
+                queryset = queryset.filter(author__name=a)
+                if len(queryset) == 0:
+                    raise ValidationError({
+                        'status': 'BookNotFound',
+                        'message': f'No Books Found for {a} '
+                    })
+            except Author.DoesNotExist:
+                raise ValidationError({
+                    'status': 'AuthorNotFound',
+                    'message': f'No Such Author Found, Spell Check the Name or add {author} into our Library.'
+                })
         return queryset
