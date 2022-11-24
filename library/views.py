@@ -4,13 +4,14 @@ from django.contrib import messages
 from django.http import HttpResponse
 
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView
 from rest_framework.exceptions import ValidationError
 
 from .models import Author, Book
 from .forms import AuthorCreateForm, BookCreateForm
 from .filters import AuthorFilter, BookFilter, BookAPIFilter
 from .resources import AuthorResource, BookResource
-from .serializers import AuthorSerializer, BookSerializer
+from .serializers import BookSerializer
 
 from tablib import Dataset
 
@@ -106,11 +107,7 @@ def books_list(request):
         return render(request, 'partials/filter_errors.html', context)
 
 # API Views
-class AuthorViewSet(viewsets.ModelViewSet):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-
-class BookViewSet(viewsets.ModelViewSet):
+class BookListView(ListAPIView):
     serializer_class = BookSerializer
     filterset_class = BookAPIFilter
 
