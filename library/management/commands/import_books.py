@@ -30,36 +30,41 @@ class Command(BaseCommand):
                     country_iso3 = row[7]
                     try:
                         book = Book.objects.get(name=book_name)
-                        self.stdout.write(f"{book.name} already exists, skipping.")
+                        self.stdout.write(self.style.WARNING(f"{book.name} already exists, skipping."))
                         pass
                     except Book.DoesNotExist:
                         try:
                             country = Country.objects.get(iso3=country_iso3)
                             try:
                                 author = Author.objects.get(name=author_name)
-                                Book.objects.create(
+                                new_book = Book.objects.create(
                                     name=book_name,
                                     author=author,
                                     date_of_publishing=date_of_publishing,
                                     number_of_pages=number_of_pages,
                                     average_critics_rating=average_critics_rating
                                 )
+                                self.stdout.write(self.style.SUCCESS(f"Imported {new_book.name} authored by {author.name}"))
                             except Author.DoesNotExist:
-                                self.stdout.write(f"{author_name}: Author Does Not Exist, Creating Author")
-                                author = Author.objects.create(
+                                self.stdout.write(self.style.WARNING(f"{author_name}: Author Does Not Exist, Creating Author"))
+                                new_author = Author.objects.create(
                                     name=author_name,
                                     age=author_age,
                                     gender=author_gender,
                                     country=country
                                 )
-                                Book.objects.create(
+                                self.stdout.write(self.style.SUCCESS(f"Created New Author: {new_author}"))
+
+                                new_book = Book.objects.create(
                                     name=book_name,
                                     author=author,
                                     date_of_publishing=date_of_publishing,
                                     number_of_pages=number_of_pages,
                                     average_critics_rating=average_critics_rating
                                 )
+                                self.stdout.write(self.style.SUCCESS(f"Imported {new_book.name} authored by {new_author.name}"))
+
                         except Country.DoesNotExist:
-                            self.stdout.write(f"break at {row}, Country Does Not Exist. Check if the iso3 code is valid.")
+                            self.stdout.write(self.style.ERROR(f"Break at {book_name}, Country Does Not Exist. Check if the iso3 code is valid and re-run the script."))
                             break
-                self.stdout.write(f"Import Complete")
+                self.stdout.write(self.style.SUCCESS(f"Import Complete"))

@@ -26,7 +26,7 @@ class Command(BaseCommand):
                     country_iso3 = row[3]
                     try:
                         author = Author.objects.get(name=author_name)
-                        self.stdout.write(f"{author.name} Already Exists, Skipping.")
+                        self.stdout.write(self.style.WARNING(f"{author.name} Already Exists, Skipping."))
                     except Author.DoesNotExist:
                         try:
                             country = Country.objects.get(iso3=country_iso3)
@@ -36,7 +36,7 @@ class Command(BaseCommand):
                                 gender=author_gender,
                                 country=country
                             )
-                            self.stdout.write(f"Imported {new_author.name}")
+                            self.stdout.write(self.style.SUCCESS(f"Imported {new_author.name}"))
                         except Country.DoesNotExist:
-                            self.stdout.write(f"Country: {country.iso3} Does Not Exist, Please Validate the ISO3 Code.")
-                self.stdout.write(f"Import Complete")
+                            self.stdout.write(self.style.ERROR(f"Country: {country.iso3} Does Not Exist, Please Validate the ISO3 Code."))
+                self.stdout.write(self.style.SUCCESS(f"Import Complete"))
