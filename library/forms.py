@@ -25,11 +25,11 @@ class AuthorCreateForm(forms.ModelForm):
         return age
     
 class BookCreateForm(forms.ModelForm):
+    date_of_publishing = forms.DateField(input_formats=['%d/%m/%Y'])
     class Meta:
         model = Book
         fields = '__all__'
         widgets = {
-            'date_of_publishing': forms.DateInput(attrs={'type': 'date'}),
             'average_critics_rating': forms.Select(choices=[(i, i) for i in range(11)])
         }
     
