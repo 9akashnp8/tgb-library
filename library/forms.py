@@ -25,7 +25,10 @@ class AuthorCreateForm(forms.ModelForm):
         return age
     
 class BookCreateForm(forms.ModelForm):
-    date_of_publishing = forms.DateField(input_formats=['%d/%m/%Y'])
+    date_of_publishing = forms.DateField(
+        input_formats=['%d/%m/%Y'],
+        widget=DateInput(attrs={'placeholder': 'DD/MM/YYYY'})
+    )
     class Meta:
         model = Book
         fields = '__all__'
