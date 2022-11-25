@@ -8,7 +8,7 @@ class Command(BaseCommand):
     Custom Management Command to Import Books (& Unadded Authors)
     into the database via a csv file
     """
-    help = 'Display something'
+    help = 'Import Books (& Authors) into TGB Library via a csv file'
 
     def add_arguments(self, parser):
         parser.add_argument('file', type=str, help='This is the csv file name (without.csv extension) to be imported')

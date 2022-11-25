@@ -4,10 +4,10 @@ from library.models import Author, Book, Country
 import csv
 
 class Command(BaseCommand):
-    help = 'Display something'
+    help = 'Import Countries into TGB Library via a csv file'
 
     def add_arguments(self, parser):
-        parser.add_argument('file', type=str, help='This is the csv file name to be imported')
+        parser.add_argument('file', type=str, help='This is the csv file name (without.csv extension) to be imported')
 
     def handle(self, *args, **kwargs):
         filename = kwargs['file']
